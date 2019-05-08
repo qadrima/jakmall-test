@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use App\Order;
 
 class HomeController extends Controller
 {
@@ -13,7 +16,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        
+
     }
 
     /**
@@ -23,6 +26,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $orders = Order::where('user_id', Auth::user()->id)
+                    ->orderBy('created_at', 'desc')
+                    ->with(['topupBalance', 'product'])
+                    ->get();
+
+        return view('home', compact(
+            'orders'
+        ));
     }
 }

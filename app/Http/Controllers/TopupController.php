@@ -34,30 +34,27 @@ class TopupController extends Controller
         {
             DB::beginTransaction();
 
-            $topupBalance = TopupBalance::create($request->all());
-
-            $order = Order::create([
+            $topupBalance   = TopupBalance::create($request->all());
+            $tax            = config('topup.tax');
+            $order          = Order::create([
                 'user_id'           => Auth::user()->id,
                 'topup_balance_id'  => $topupBalance->id,
                 'order_no'          => Helper::getRandomInt(),
+                'total'             => ($request->value*$tax/100)+$request->value
             ]);
         }
         catch(\Exception $e)
         {
             DB::rollback();
-            
+
             return back()->withError($e->getMessage())->withInput();
         }
 
         DB::commit();
 
-        $tax    = config('topup.tax');
-        $total  = ($topupBalance->value*$tax/100)+$topupBalance->value;
-
         return view('order.success_order_topup', compact(
-            'topupBalance', 
-            'order',
-            'total'
+            'topupBalance',
+            'order'
         ));
     }
 }

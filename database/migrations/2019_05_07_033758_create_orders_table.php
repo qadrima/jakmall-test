@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->bigInteger('product_id')->unsigned()->nullable();
             $table->bigInteger('topup_balance_id')->unsigned()->nullable();
             $table->string('order_no', 10)->unique();
+            $table->string('total');
             $table->char('status_order', 1)->default(0)->comment('0=unpaid, 1=success, 2=cancelled, 3=failed');
             $table->timestamps();
         });

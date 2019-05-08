@@ -11,6 +11,7 @@ class Order extends Model
 		'product_id',
 		'topup_balance_id',
 		'order_no',
+		'total',
 		'status_order'
 	];
 

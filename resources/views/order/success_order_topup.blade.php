@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                
+
                 <!--  -->
                 <div class="card-header">Success!</div>
 
@@ -13,7 +13,7 @@
                 <div class="card-body">
 
                     <br>
-                    <div class="table-responsive">          
+                    <div class="table-responsive">
                         <table class="table">
                             <tbody>
                                 <tr>
@@ -22,7 +22,7 @@
                                 </tr>
                                 <tr>
                                     <td>Total</td>
-                                    <td>Rp {{number_format($total, 0, '', '.')}}</td>
+                                    <td>Rp {{number_format($order->total, 0, '', '.')}}</td>
                                 </tr>
                             </tbody>
                         </table>
