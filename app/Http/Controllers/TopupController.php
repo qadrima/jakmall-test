@@ -13,6 +13,7 @@ use App\TopupBalance;
 use App\Order;
 
 use App\Helpers\Helper;
+use App\Jobs\CanceledOrder;
 
 class TopupController extends Controller
 {
@@ -51,6 +52,9 @@ class TopupController extends Controller
         }
 
         DB::commit();
+
+        // Jobs | Canceled : order is not paid within 5 minutes of creation
+        $this->dispatch((new CanceledOrder($order->id))->delay(300));
 
         return view('order.success_order_topup', compact(
             'topupBalance',

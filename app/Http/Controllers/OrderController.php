@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 use App\Helpers\Helper;
 
 use App\Order;
@@ -73,31 +75,31 @@ class OrderController extends Controller
 
     private function successRate()
     {
-    	// default jakarta :)
-    	date_default_timezone_set('Asia/Jakarta');
-
     	$hour = intval(date('H'));
 
     	// If paid this is within 9AM to 5PM
     	// 90% = 9 or 40% = 4
     	$rate = ($hour >= 9 && $hour <= 17) ? 9 : 4;
-    	$arr  = [];
+
+    	$arrPossibility  = []; // [true, false, false, ..]
 
     	for($i=0; $i<10; $i++)
     	{
     		if($rate>0)
     		{
     			$rate--;
-    			array_push($arr, true);
+    			array_push($arrPossibility, true);
     		}
     		else
     		{
-    			array_push($arr, false);
+    			array_push($arrPossibility, false);
     		}
     	}
 
-    	$randomIndex = rand(0,9);
+        // ~
+        Log::info('Hour : '. $hour .' | Possibility : '.json_encode($arrPossibility));
 
-    	return $arr[$randomIndex];
+        // random kemungkinan berhasil.
+    	return $arrPossibility[rand(0,9)];
     }
 }

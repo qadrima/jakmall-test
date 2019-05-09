@@ -13,6 +13,8 @@ use App\Rules\Price;
 use App\Product;
 use App\Order;
 
+use App\Jobs\CanceledOrder;
+
 class ProductController extends Controller
 {
     public function index()
@@ -50,6 +52,9 @@ class ProductController extends Controller
         }
 
         DB::commit();
+
+        // Jobs | Canceled : order is not paid within 5 minutes of creation
+        $this->dispatch((new CanceledOrder($order->id))->delay(300));
 
         return view('order.success_order_product', compact(
             'product',
