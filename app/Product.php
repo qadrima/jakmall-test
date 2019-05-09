@@ -10,5 +10,6 @@ class Product extends Model
 		'product',
 		'shipping_address',
 		'price',
+		'shipping_code'
 	];
 }

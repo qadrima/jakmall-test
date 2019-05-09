@@ -33,7 +33,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -49,12 +49,22 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
+
+                            <!-- unpaid -->
+                            @if(($unpaidOrder = App\Helpers\Helper::getUnpaidOrder()) > 0)
+                                <li class="nav-item">
+                                    <a class="nav-link">
+                                        <span class="text-danger"><b>{{ $unpaidOrder }}</b></span> unpaid order
+                                    </a>
+                                </li>
+                            @endif
+
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('topup_balance') }}">
                                     Topup Balance
                                 </a>
                             </li>
-                            <li class="nav-item dropdown">
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('product') }}">
                                     Product
                                 </a>

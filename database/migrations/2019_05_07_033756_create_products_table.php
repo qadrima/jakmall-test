@@ -18,6 +18,7 @@ class CreateProductsTable extends Migration
             $table->string('product', 150);
             $table->string('shipping_address', 150);
             $table->string('price');
+            $table->string('shipping_code', 8)->unique()->nullable();
             $table->timestamps();
         });
     }

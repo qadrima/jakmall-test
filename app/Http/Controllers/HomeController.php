@@ -29,10 +29,35 @@ class HomeController extends Controller
         $orders = Order::where('user_id', Auth::user()->id)
                     ->orderBy('created_at', 'desc')
                     ->with(['topupBalance', 'product'])
-                    ->get();
+                    ->paginate(20);
 
         return view('home', compact(
             'orders'
+        ));
+    }
+
+    public function search(Request $request)
+    {
+        if(strlen($request->search) == 0)
+            return redirect('/');
+
+        return redirect('/search/'.$request->search);
+    }
+
+    public function searchResult($search)
+    {
+        if(strlen($search) == 0)
+            return redirect('/');
+
+        $orders = Order::where('user_id', Auth::user()->id)
+                    ->where('order_no', 'like', '%'.$search.'%')
+                    ->orderBy('created_at', 'desc')
+                    ->with(['topupBalance', 'product'])
+                    ->paginate(20);
+
+        return view('home', compact(
+            'orders',
+            'search'
         ));
     }
 }

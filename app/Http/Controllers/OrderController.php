@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\Helper;
 
 use App\Order;
+use App\Product;
 
 class OrderController extends Controller
 {
@@ -26,7 +28,7 @@ class OrderController extends Controller
     public function payNow(Request $request)
     {
     	$order = Order::where('order_no', $request->order_no)
-    			->with(['topupBalance', 'product'])
+    			->with(['product'])
     			->first();
 
     	if(!$order || $order->status_order > 0 || $order->user_id != Auth::user()->id)
@@ -55,7 +57,18 @@ class OrderController extends Controller
 
     private function payNowProduct($order)
     {
-    	return false;
+        $update = Product::where('id', $order->product->id)->update([
+            'shipping_code' => Helper::getRandomAlphanumeric(8)
+        ]);
+
+        if($update)
+        {
+            $update = Order::where('id', $order->id)->update([
+                'status_order' => 1
+            ]);
+        }
+
+        return $update;
     }
 
     private function successRate()
