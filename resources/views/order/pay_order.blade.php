@@ -7,7 +7,10 @@
             <div class="card">
                 
                 <!--  -->
-                <div class="card-header">Pay your order</div>
+                <div class="card-header">
+                    Pay your order 
+                    <p class="text-secondary" style="float: right;"> {{ \Carbon\Carbon::parse($order->created_at)->format('d M Y H:i') }}</p>
+                </div>
 
                 <!--  -->
                 <div class="card-body">
