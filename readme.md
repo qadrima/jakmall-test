@@ -1,3 +1,11 @@
+## Jakmalltest
+
+- composer install
+- copy .env.example to .env
+- php artisan migrate
+- php artisan serve
+- php artisan queue:listen
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
